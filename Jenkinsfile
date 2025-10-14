@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Clone your GitHub repository
+                echo "📥 Cloning GitHub Repository..."
                 git url: 'https://github.com/Mani0437/ATM--Console-Based.git', branch: 'main'
             }
         }
@@ -12,7 +12,7 @@ pipeline {
         stage('Setup Python') {
             steps {
                 sh '''
-                    echo "Checking Python version..."
+                    echo "🐍 Checking Python version..."
                     python3 --version
                 '''
             }
@@ -21,8 +21,12 @@ pipeline {
         stage('Run ATM Program') {
             steps {
                 sh '''
-                    echo "Running ATM Python Program..."
-                    python3 "atm project.py"
+                    echo "▶️ Running ATM Python Program (auto input mode)..."
+                    
+                    # Run the Python file and provide '5' as input to exit gracefully
+                    python3 "atm project.py" << EOF
+5
+EOF
                 '''
             }
         }
@@ -30,10 +34,10 @@ pipeline {
 
     post {
         success {
-            echo '✅ ATM Project executed successfully!'
+            echo '✅ ATM Project executed successfully in Jenkins pipeline!'
         }
         failure {
-            echo '❌ Build failed. Please check console logs.'
+            echo '❌ Build failed. Please check the console output for errors.'
         }
     }
 }
