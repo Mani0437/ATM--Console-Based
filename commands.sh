@@ -1,4 +1,4 @@
 pwd
-ls -l
+ls -ls
 whoami
 uname -a
